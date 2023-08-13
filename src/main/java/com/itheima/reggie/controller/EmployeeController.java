@@ -102,9 +102,20 @@ public class EmployeeController {
         //添加排序条件
         lambdaQueryWrapper.orderByDesc(Employee::getCreateTime);
         //执行查询
-        employeeService.page(pageInfo,lambdaQueryWrapper);
+        employeeService.page(pageInfo, lambdaQueryWrapper);
 
         return R.success(pageInfo);
+    }
+
+
+    //根据id更新员工信息
+    @PutMapping
+    public R<String> update(@RequestBody Employee employee, HttpServletRequest httpServletRequest) {
+        log.info(employee.toString());
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser( (Long)httpServletRequest.getSession().getAttribute("employee"));
+        employeeService.updateById(employee);
+        return R.success("社員情報が変更されました");
     }
 
 
