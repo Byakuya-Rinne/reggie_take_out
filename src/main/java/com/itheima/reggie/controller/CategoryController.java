@@ -46,14 +46,14 @@ public class CategoryController {
 
     //删除分类
     @DeleteMapping
-    public R<String> delete(Long id){
-        log.info("删除分类: {}",id);
+    public R<String> delete(Long ids) throws Exception {
+        log.info("删除分类: {}",ids);
 
-        //TODO 如果有关联 则不能删除
-        categoryService.removeById(id);
+//        //TODO 如果有关联 则不能删除
+        categoryService.remove(ids);
 
 
-        return R.success("删除成功");
+        return R.success("分类删除成功");
     }
 
 

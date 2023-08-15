@@ -26,8 +26,16 @@ public class GlobalExceptionHandler {
             String msg = split[2] + "已存在";
             return R.error(msg);
         }
-
         return R.error("失敗しました！");
     }
 
+
+
+    //自定义异常处理方法
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException customException){
+        log.error(customException.getMessage());
+
+        return R.error(customException.getMessage());
+    }
 }
