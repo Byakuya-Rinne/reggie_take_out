@@ -39,7 +39,6 @@ public class DishController{
         return R.success("保存菜品成功");
     }
 
-
     //分页查询菜品
     @GetMapping("/page")
     public R<Page> page(int page, int pageSize, String name){
@@ -90,6 +89,14 @@ public class DishController{
         return R.success(pageInfo);
     }
 
+
+
+    //根据id查询菜品, 带口味信息
+    @GetMapping("/{id}")//id在请求url里, 用PathVariable
+    public R<DishDto> getByIdWithFlavor(@PathVariable Long id){
+        DishDto dishDto = dishService.getByIdWithFlavor(id);
+        return R.success(dishDto);
+    }
 
 
 
