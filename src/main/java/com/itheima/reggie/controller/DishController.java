@@ -100,6 +100,13 @@ public class DishController{
 
 
 
+    //修改菜品
+    @PutMapping
+    public R<String> update(@RequestBody DishDto dishDto){
+        dishService.updateWithFlavor(dishDto);
+        log.info("保存菜品成功                  dishDto:{}",dishDto);
+        return R.success("保存菜品成功");
+    }
 
 
 
