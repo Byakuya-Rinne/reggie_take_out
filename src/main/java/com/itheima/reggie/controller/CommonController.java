@@ -32,7 +32,6 @@ public class CommonController {
     @PostMapping("/upload")
     public R<String> upload(MultipartFile file){ //参数名必须和前端的name属性对应
         //此时file是临时文件, 需要转存到指定位置
-        log.info(file.toString());
 
         //截取原始文件名的后缀
         String originalFileName = file.getOriginalFilename();
