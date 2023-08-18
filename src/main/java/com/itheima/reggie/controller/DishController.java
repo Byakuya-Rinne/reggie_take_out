@@ -66,7 +66,7 @@ public class DishController{
         List<Dish> records = pageInfo.getRecords();
 
 
-        //TODO records.stream().map((item)->{
+        //TODO 不懂records.stream().map((item)->{
         List<DishDto> list = records.stream().map((item)->{
                     DishDto dishDto = new DishDto();
 
@@ -109,8 +109,18 @@ public class DishController{
     }
 
 
+    //批量查询菜品
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
 
+        LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(dish.getCategoryId()!=null, Dish::getCategoryId, dish.getCategoryId());
+        lambdaQueryWrapper.orderByAsc(Dish::getSort) .orderByDesc(Dish::getUpdateTime);
 
+        List<Dish> list = dishService.list(lambdaQueryWrapper);
+
+        return R.success(list);
+    }
 
 
 
