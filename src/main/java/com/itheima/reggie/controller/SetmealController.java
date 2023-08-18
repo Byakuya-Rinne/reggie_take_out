@@ -81,4 +81,15 @@ public class SetmealController {
 
         return R.success(dtoPage);
     }
+
+
+
+
+    //根据id删除删除套餐
+    @DeleteMapping
+    public R<String> delete(@RequestParam List<Long> ids){
+        //套餐表 和 套餐菜品关联表
+        setmealService.removeWithDish(ids);
+        return R.success("套餐删除成功しました");
+    }
 }
