@@ -124,11 +124,22 @@ public class DishController{
     }
 
 
+    //TODO 菜品起售停售
+    @GetMapping("/status")
+    public R<String> stopOrSale(List<Long> ids, int status){
+
+
+        return R.success("更改成功");
+    }
 
 
 
+    //TODO 批量删除菜品
+    @DeleteMapping
+    public R<String> delete(List<Long> ids){
 
-
+        return R.success("删除成功");
+    }
 
 
 

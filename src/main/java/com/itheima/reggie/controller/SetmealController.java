@@ -83,8 +83,6 @@ public class SetmealController {
     }
 
 
-
-
     //根据id删除删除套餐
     @DeleteMapping
     public R<String> delete(@RequestParam List<Long> ids){
@@ -92,4 +90,24 @@ public class SetmealController {
         setmealService.removeWithDish(ids);
         return R.success("套餐删除成功しました");
     }
+
+
+    //TODO 修改套餐
+    @PutMapping
+    public R<String> update(){
+
+
+        return R.success("修改套餐成功");
+    }
+
+
+    //TODO 起售停售
+    //http://localhost:8080/setmeal/status/0?ids=1692437158490656769
+    @PostMapping("/status")
+    public R<String> stopOrSale(@RequestParam List<Long> ids){
+
+
+        return R.success("起售成功");
+    }
+
 }
