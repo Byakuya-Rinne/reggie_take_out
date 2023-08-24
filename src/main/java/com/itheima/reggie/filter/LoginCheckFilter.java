@@ -27,7 +27,7 @@ public class LoginCheckFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        log.info("LoginCheckFilter拦截请求: {}", request.getRequestURI());
+        //log.info("LoginCheckFilter拦截请求: {}", request.getRequestURI());
 
         //获取本次请求的uri
         String requestURI = request.getRequestURI();
@@ -47,7 +47,7 @@ public class LoginCheckFilter implements Filter {
 
         //如果不需要处理则放行
         if(check){
-            log.info("本次请求不需要处理: {}",requestURI);
+            //log.info("本次请求不需要处理: {}",requestURI);
             filterChain.doFilter(request, response);
             return;
         }

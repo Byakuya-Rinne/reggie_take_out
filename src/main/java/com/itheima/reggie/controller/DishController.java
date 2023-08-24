@@ -6,6 +6,7 @@ import com.itheima.reggie.common.R;
 import com.itheima.reggie.dto.DishDto;
 import com.itheima.reggie.entity.Category;
 import com.itheima.reggie.entity.Dish;
+import com.itheima.reggie.entity.DishFlavor;
 import com.itheima.reggie.service.CategoryService;
 import com.itheima.reggie.service.DishFlavorService;
 import com.itheima.reggie.service.DishService;
@@ -109,9 +110,9 @@ public class DishController{
     }
 
 
-    //批量查询菜品
+    //客户端和管理端批量查询菜品, 客户端需要和购物车同时实现
     @GetMapping("/list")
-    public R<List<Dish>> list(Dish dish){
+    public R<List<DishDto>> list(Dish dish){
 
         LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(dish.getCategoryId()!=null, Dish::getCategoryId, dish.getCategoryId());
@@ -119,8 +120,33 @@ public class DishController{
         lambdaQueryWrapper.orderByAsc(Dish::getSort) .orderByDesc(Dish::getUpdateTime);
 
         List<Dish> list = dishService.list(lambdaQueryWrapper);
+        //查到的是dish的list, 还差口味flavor数据
 
-        return R.success(list);
+        List<DishDto> DTOlist = list.stream().map((item)->{
+            //把dish的数据复制到dto中, 还缺少口味
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item,dishDto);
+
+            Long categoryId = item.getCategoryId(); //分类id
+
+            Category category = categoryService.getById(categoryId);
+
+            if(category!=null){
+                String categoryName = category.getName();
+                dishDto.setCategoryName(categoryName);
+            }
+            Long dishId = item.getId();
+            
+            LambdaQueryWrapper<DishFlavor> dishFlavorLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            dishFlavorLambdaQueryWrapper.eq(DishFlavor::getDishId,dishId);
+            //select * from dish_flavor where dish_id = ?
+            List<DishFlavor> dishFlavorList = dishFlavorService.list(dishFlavorLambdaQueryWrapper);
+            dishDto.setFlavors(dishFlavorList);
+            return dishDto;
+        }).collect(Collectors.toList());
+
+
+        return R.success(DTOlist);
     }
 
 
