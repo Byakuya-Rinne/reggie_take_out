@@ -6,6 +6,7 @@ import com.itheima.reggie.common.R;
 import com.itheima.reggie.entity.ShoppingCart;
 import com.itheima.reggie.service.ShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,7 +73,16 @@ public class ShoppingCartController {
         return R.success(list);
     }
 
+    //清空购物车
+    @DeleteMapping("/clean")
+    public R<String> clean(){
+        //delete from shopping_cart where user_id = ?
+        LambdaQueryWrapper<ShoppingCart> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(ShoppingCart::getUserId,BaseContext.getCurrentId());
 
+        shoppingCartService.remove(lambdaQueryWrapper);
+        return R.success("情况购物车成功了了了");
+    }
 
 
 
